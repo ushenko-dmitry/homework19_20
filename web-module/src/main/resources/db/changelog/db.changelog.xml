@@ -24,4 +24,23 @@
         </createTable>
     </changeSet>
     
+    <changeSet id="2" author="dushenko">
+        <createTable tableName="item">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false"
+                             primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="enum('READY', 'COMPLETED')"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="3" author="dushenko">
+        <modifyDataType tableName="user"
+                        columnName="role"
+                        newDataType="enum('ADMIN', 'USER')"/>
+    </changeSet>
+    
 </databaseChangeLog>
