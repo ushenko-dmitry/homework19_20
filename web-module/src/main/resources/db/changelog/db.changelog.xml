@@ -43,4 +43,17 @@
                         newDataType="enum('ADMIN', 'USER')"/>
     </changeSet>
     
+    <changeSet id="4" author="dushenko">
+        <insert tableName="user">
+            <column name="username" value="admin"/>
+            <column name="password" value="$2y$12$D54izdSX50QiS9Dw.0FL5uLhzBnPJfOZucaysUL9c3YxdT/iVFJBy"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="user">
+            <column name="username" value="user"/>
+            <column name="password" value="$2y$12$e07QS7vMZxBqURyiZMwqwODey566KiytzKa7yqS0J8pH4a/MhQ1UG"/>
+            <column name="role" value="USER"/>
+        </insert>
+    </changeSet>
+    
 </databaseChangeLog>
