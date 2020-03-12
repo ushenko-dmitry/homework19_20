@@ -17,4 +17,6 @@ public interface UserService {
 
     boolean removeUser(UserDTO userDTO);
 
+    public UserDTO getUserByUsername(String username);
+
 }

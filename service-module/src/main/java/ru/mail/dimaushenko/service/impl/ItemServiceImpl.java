@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import ru.mail.dimaushenko.repository.ItemRepository;
 import ru.mail.dimaushenko.repository.model.Item;
+import ru.mail.dimaushenko.repository.model.ItemStatus;
 import ru.mail.dimaushenko.service.ItemConvertService;
 import ru.mail.dimaushenko.service.ItemService;
 import ru.mail.dimaushenko.service.model.ItemDTO;
@@ -63,6 +64,25 @@ public class ItemServiceImpl implements ItemService {
             logger.error(ex.getMessage(), ex);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public List<ItemDTO> getCompletedItems() {
+        try (Connection connection = itemRepository.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                List<Item> items = itemRepository.getEntityByItemStatus(connection, ItemStatus.COMPLETED);
+                List<ItemDTO> itemDTOs = itemConvertService.getDTOFromObject(items);
+                connection.commit();
+                return itemDTOs;
+            } catch (SQLException ex) {
+                connection.rollback();
+                logger.error(ex.getMessage(), ex);
+            }
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return null;
     }
 
     @Override

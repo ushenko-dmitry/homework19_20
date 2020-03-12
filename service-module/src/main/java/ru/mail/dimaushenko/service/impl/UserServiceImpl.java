@@ -85,6 +85,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO getUserByUsername(String username) {
+        try (Connection connection = userRepository.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                User user = userRepository.getEntityByUsername(connection, username);
+                UserDTO userDTO = userConvertService.getDTOFromObject(user);
+                connection.commit();
+                return userDTO;
+            } catch (SQLException ex) {
+                connection.rollback();
+                logger.error(ex.getMessage(), ex);
+            }
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return null;
+    }
+
+    @Override
     public Integer getAmountUsers() {
         try (Connection connection = userRepository.getConnection()) {
             connection.setAutoCommit(false);

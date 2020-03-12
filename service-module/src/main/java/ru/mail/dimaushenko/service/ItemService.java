@@ -8,6 +8,8 @@ public interface ItemService {
     ItemDTO addItem(ItemDTO itemDTO);
 
     List<ItemDTO> getAllItems();
+    
+    List<ItemDTO> getCompletedItems();
 
     ItemDTO getItemById(Long itemId);
 

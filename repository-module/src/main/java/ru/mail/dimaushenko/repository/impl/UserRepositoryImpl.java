@@ -78,6 +78,20 @@ public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements U
     }
 
     @Override
+    public User getEntityByUsername(Connection connection, String username) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestSelectUserByUsername())) {
+            preparedStatement.setString(1, username);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                User user = null;
+                if (resultSet.next()) {
+                    user = getUser(resultSet);
+                }
+                return user;
+            }
+        }
+    }
+
+    @Override
     public Integer getAmountEntities(Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestGetAmountUsers())) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
