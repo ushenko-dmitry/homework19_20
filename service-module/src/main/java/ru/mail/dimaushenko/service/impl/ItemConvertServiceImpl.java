@@ -2,12 +2,14 @@ package ru.mail.dimaushenko.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 import ru.mail.dimaushenko.repository.model.Item;
 import ru.mail.dimaushenko.repository.model.ItemStatus;
 import ru.mail.dimaushenko.service.ItemConvertService;
 import ru.mail.dimaushenko.service.model.ItemDTO;
 import ru.mail.dimaushenko.service.model.ItemStatusDTO;
 
+@Component
 public class ItemConvertServiceImpl implements ItemConvertService {
 
     @Override

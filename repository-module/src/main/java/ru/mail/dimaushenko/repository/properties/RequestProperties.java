@@ -18,8 +18,12 @@ public class RequestProperties {
 
     @Value("${sql.request.select.user.by_id}")
     private String sqlRequestSelectUserById;
+    @Value("${sql.request.select.user.by_username}")
+    private String sqlRequestSelectUserByUsername;
     @Value("${sql.request.select.item.by_id}")
     private String sqlRequestSelectItemById;
+    @Value("${sql.request.select.item.by_status}")
+    private String sqlRequestSelectItemByStatus;
 
     @Value("${sql.request.select.user.amount}")
     private String sqlRequestGetAmountUsers;
@@ -56,8 +60,16 @@ public class RequestProperties {
         return sqlRequestSelectUserById;
     }
 
+    public String getSqlRequestSelectUserByUsername() {
+        return sqlRequestSelectUserByUsername;
+    }
+
     public String getSqlRequestSelectItemById() {
         return sqlRequestSelectItemById;
+    }
+
+    public String getSqlRequestSelectItemByStatus() {
+        return sqlRequestSelectItemByStatus;
     }
 
     public String getSqlRequestGetAmountUsers() {
@@ -83,5 +95,5 @@ public class RequestProperties {
     public String getSqlRequestDeleteItem() {
         return sqlRequestDeleteItem;
     }
-
+    
 }

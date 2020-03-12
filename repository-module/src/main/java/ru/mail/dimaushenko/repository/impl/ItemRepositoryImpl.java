@@ -30,7 +30,7 @@ public class ItemRepositoryImpl extends GeneralRepositoryImpl<Item> implements I
     public Item addEntity(Connection connection, Item item) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestInsertItem())) {
             preparedStatement.setString(1, item.getName());
-            preparedStatement.setString(3, item.getStatus().name());
+            preparedStatement.setString(2, item.getStatus().name());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -71,6 +71,21 @@ public class ItemRepositoryImpl extends GeneralRepositoryImpl<Item> implements I
                     item = getItem(resultSet);
                 }
                 return item;
+            }
+        }
+    }
+
+    @Override
+    public List<Item> getEntityByItemStatus(Connection connection, ItemStatus itemStatus) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestSelectItemByStatus())) {
+            preparedStatement.setString(1, itemStatus.name());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                List<Item> items = new ArrayList<>();
+                while (resultSet.next()) {
+                    Item item = getItem(resultSet);
+                    items.add(item);
+                }
+                return items;
             }
         }
     }
