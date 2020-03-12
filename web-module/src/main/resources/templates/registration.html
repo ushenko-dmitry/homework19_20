@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <head>
+        <title></title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div>Register</div>
+        <form method="POST" th:action="@{/registration}" th:object="${userForm}">
+            <th:block th:unless="${usernameError} == null">
+                <span th:text="${usernameError}"></span><br/>
+            </th:block>
+            <th:block th:if="${#fields.hasErrors('username')}">
+                <span th:errors="*{username}">name error</span><br/>
+            </th:block>
+            <input type="text" name="username" placeholder="Username" th:field="*{username}"/><br/>
+            <th:block th:unless="${passwordError} == null">
+                <span th:text="${passwordError}"></span><br/>
+            </th:block>
+            <th:block th:if="${#fields.hasErrors('password')}">
+                <span th:errors="*{password}">name error</span><br/>
+            </th:block>
+            <input type="password" name="password" placeholder="Password" th:field="*{password}"/><br/>
+            <th:block th:if="${#fields.hasErrors('passwordConfirm')}">
+                <span th:errors="*{passwordConfirm}">name error</span><br/>
+            </th:block>
+            <input type="password" name="passwordConfirm" placeholder="Password confirm" th:field="*{passwordConfirm}"/><br/>
+            <span><input type="radio" name="role" value="user" checked=""/>User</span><br/>
+            <span><input type="radio" name="role" value="admin"/>Admin</span><br/>
+            <input type="submit" value="Submit"/>
+        </form>
+        <a href="/login" th:href="@{/login}">Login</a>
+    </body>
+</html>

@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <head>
         <title>Items</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8"/>
     </head>
     <body>
         <div>Items</div>
+        <a href="/logout" th:href="@{/logout}">Log Out</a>
+
+        <table border="1">
+            <caption>Items</caption>
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>Name</td>
+                    <td>Status</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item, stat : ${items}">
+                    <td th:text="${item.id}">id</td>
+                    <td th:text="${item.name}">Name</td>
+                    <td th:text="${item.status}">Status</td>
+                </tr>
+            </tbody>
+        </table>
+
     </body>
 </html>

@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
-        <title>login</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <meta charset="UTF-8"/>
     </head>
     <body>
         <div>Login</div>
-        <form action="/login" method="post">
-            <input name="username">
-            <input type="password" name="password">
-            <input type="submit">
+        <th:block th:if="${param.error}">
+            <p>Username or password has error</p>
+        </th:block>
+        <th:block th:if="${param.logout}">
+            <p>Logout user</p>
+        </th:block>
+        <form method="POST" th:action="@{/login}">
+            <input type="text" name="username"/><br/>
+            <input type="password" name="password"/><br/>
+            <input type="submit" value="Login"/>
         </form>
+        <a href="/registration" th:href="@{/registration}">Registration</a>
     </body>
 </html>
