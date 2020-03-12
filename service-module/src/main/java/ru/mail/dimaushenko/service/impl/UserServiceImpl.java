@@ -7,21 +7,28 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.mail.dimaushenko.repository.UserRepository;
 import ru.mail.dimaushenko.repository.model.User;
 import ru.mail.dimaushenko.service.UserConvertService;
 import ru.mail.dimaushenko.service.UserService;
+import ru.mail.dimaushenko.service.model.AppUser;
 import ru.mail.dimaushenko.service.model.UserDTO;
 
-@Service
+@Service("UserDetailsServiceImpl")
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final UserRepository userRepository;
     private final UserConvertService userConvertService;
 
-    public UserServiceImpl(UserRepository userRepository, UserConvertService userConvertService) {
+    public UserServiceImpl(UserRepository userRepository,
+            UserConvertService userConvertService
+    ) {
         this.userRepository = userRepository;
         this.userConvertService = userConvertService;
     }
@@ -31,7 +38,12 @@ public class UserServiceImpl implements UserService {
         try (Connection connection = userRepository.getConnection()) {
             connection.setAutoCommit(false);
             try {
+                User userFromDB = userRepository.getEntityByUsername(connection, userDTO.getUsername());
+                if (userFromDB != null) {
+                    return null;
+                }
                 User user = userConvertService.getObjectFromDTO(userDTO);
+                user.setPassword(BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt(12)));
                 user = userRepository.addEntity(connection, user);
                 userDTO = userConvertService.getDTOFromObject(user);
                 connection.commit();
@@ -104,6 +116,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        try (Connection connection = userRepository.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                User user = userRepository.getEntityByUsername(connection, username);
+                UserDTO userDTO = userConvertService.getDTOFromObject(user);
+
+                if (userDTO == null) {
+                    throw new UsernameNotFoundException("User is not found");
+                }
+                AppUser appUser = new AppUser(userDTO);
+                connection.commit();
+                return appUser;
+            } catch (SQLException ex) {
+                connection.rollback();
+                logger.error(ex.getMessage(), ex);
+            }
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return null;
+    }
+
+    @Override
     public Integer getAmountUsers() {
         try (Connection connection = userRepository.getConnection()) {
             connection.setAutoCommit(false);
@@ -158,5 +194,4 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
-
 }
