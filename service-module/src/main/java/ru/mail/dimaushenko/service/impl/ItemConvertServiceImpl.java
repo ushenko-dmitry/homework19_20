@@ -51,24 +51,32 @@ public class ItemConvertServiceImpl implements ItemConvertService {
     }
 
     private ItemStatusDTO getItemStatusDTOFromItemStatus(ItemStatus itemStatus) {
-        switch (itemStatus) {
-            case COMPLETED:
-                return ItemStatusDTO.COMPLETED;
-            case READY:
-                return ItemStatusDTO.READY;
-            default:
-                return null;
+        if (itemStatus != null) {
+            switch (itemStatus) {
+                case COMPLETED:
+                    return ItemStatusDTO.COMPLETED;
+                case READY:
+                    return ItemStatusDTO.READY;
+                default:
+                    return null;
+            }
+        } else {
+            return null;
         }
     }
 
     private ItemStatus getItemStatusFromItemStatusDTO(ItemStatusDTO itemStatusDTO) {
-        switch (itemStatusDTO) {
-            case COMPLETED:
-                return ItemStatus.COMPLETED;
-            case READY:
-                return ItemStatus.READY;
-            default:
-                return null;
+        if (itemStatusDTO != null) {
+            switch (itemStatusDTO) {
+                case COMPLETED:
+                    return ItemStatus.COMPLETED;
+                case READY:
+                    return ItemStatus.READY;
+                default:
+                    return null;
+            }
+        } else {
+            return null;
         }
     }
 

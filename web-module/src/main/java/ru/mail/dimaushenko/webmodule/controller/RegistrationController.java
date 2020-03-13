@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.mail.dimaushenko.service.UserService;
 import ru.mail.dimaushenko.service.model.UserDTO;
-import ru.mail.dimaushenko.service.model.UserForm;
+import ru.mail.dimaushenko.webmodule.controller.model.UserForm;
 import ru.mail.dimaushenko.service.model.UserRoleDTO;
 
 @Controller

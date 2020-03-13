@@ -91,6 +91,9 @@ public class ItemServiceImpl implements ItemService {
             connection.setAutoCommit(false);
             try {
                 Item item = itemRepository.getEntityById(connection, itemId);
+                if (item == null) {
+                    return null;
+                }
                 ItemDTO itemDTO = itemConvertService.getDTOFromObject(item);
                 connection.commit();
                 return itemDTO;

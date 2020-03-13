@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ru.mail.dimaushenko.service.model.UserForm;
+import ru.mail.dimaushenko.webmodule.controller.model.UserForm;
 
 @Component
 public class UserFormValidator implements Validator{

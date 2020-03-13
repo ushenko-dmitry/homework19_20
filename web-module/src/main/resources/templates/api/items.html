@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <head>
+        <title>Item API</title>
+        <meta charset="UTF-8"/>
+
+        <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    </head>
+    <body>
+        <div>Items</div>
+        
+        <div id="add_item">
+            <input type="text" name="text" id="name" value="" placeholder="Name"/>
+            <select id="status">
+                <option value="READY">Ready</option>
+                <option value="COMPLETED">Completed</option>
+            </select>
+            <input type="button" id="btn_add_item" value="Add item"/>
+        </div>
+        <input type="button" name="btn" id="test" value="butt" onclick="getItem(1)"/>
+    </body>
+    <script th:src="@{/js/ajax.js}"></script>
+</html>

@@ -1,7 +1,7 @@
 package ru.mail.dimaushenko.service.model;
 
 public class ItemDTO {
-    
+
     private Long id;
     private String name;
     private ItemStatusDTO status;
@@ -28,6 +28,11 @@ public class ItemDTO {
 
     public void setStatus(ItemStatusDTO status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemDTO{" + "id=" + id + ", name=" + name + ", status=" + status + '}';
     }
 
 }

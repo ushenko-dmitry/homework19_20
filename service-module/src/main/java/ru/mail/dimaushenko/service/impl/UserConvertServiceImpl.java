@@ -53,24 +53,32 @@ public class UserConvertServiceImpl implements UserConvertService {
     }
 
     private UserRoleDTO getUserRoleDTOFromUserRole(UserRole userRole) {
-        switch (userRole) {
-            case ADMIN:
-                return UserRoleDTO.ADMIN;
-            case USER:
-                return UserRoleDTO.USER;
-            default:
-                return null;
+        if (userRole != null) {
+            switch (userRole) {
+                case ADMIN:
+                    return UserRoleDTO.ADMIN;
+                case USER:
+                    return UserRoleDTO.USER;
+                default:
+                    return null;
+            }
+        } else {
+            return null;
         }
     }
 
     private UserRole getUserRoleFromUserRoleDTO(UserRoleDTO userRoleDTO) {
-        switch (userRoleDTO) {
-            case ADMIN:
-                return UserRole.ADMIN;
-            case USER:
-                return UserRole.USER;
-            default:
-                return null;
+        if (userRoleDTO != null) {
+            switch (userRoleDTO) {
+                case ADMIN:
+                    return UserRole.ADMIN;
+                case USER:
+                    return UserRole.USER;
+                default:
+                    return null;
+            }
+        } else {
+            return null;
         }
     }
 
