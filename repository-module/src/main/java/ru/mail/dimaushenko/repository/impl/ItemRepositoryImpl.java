@@ -63,7 +63,7 @@ public class ItemRepositoryImpl extends GeneralRepositoryImpl<Item> implements I
 
     @Override
     public Item getEntityById(Connection connection, Long id) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestSelectUserById())) {
+        try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestSelectItemById())) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 Item item = null;
