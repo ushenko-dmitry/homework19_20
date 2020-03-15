@@ -3,6 +3,7 @@ package ru.mail.dimaushenko.service.model;
 public class UserDTO {
 
     private Long id;
+    private String uuid;
     private String username;
     private String password;
     private UserRoleDTO role;
@@ -13,6 +14,14 @@ public class UserDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getUsername() {

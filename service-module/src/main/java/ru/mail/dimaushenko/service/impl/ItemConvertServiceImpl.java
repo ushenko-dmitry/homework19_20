@@ -16,6 +16,7 @@ public class ItemConvertServiceImpl implements ItemConvertService {
     public ItemDTO getDTOFromObject(Item item) {
         ItemDTO itemDTO = new ItemDTO();
         itemDTO.setId(item.getId());
+        itemDTO.setUuid(item.getUuid());
         itemDTO.setName(item.getName());
         itemDTO.setStatus(getItemStatusDTOFromItemStatus(item.getStatus()));
         return itemDTO;
@@ -35,6 +36,7 @@ public class ItemConvertServiceImpl implements ItemConvertService {
     public Item getObjectFromDTO(ItemDTO itemDTO) {
         Item item = new Item();
         item.setId(itemDTO.getId());
+        item.setUuid(itemDTO.getUuid());
         item.setName(itemDTO.getName());
         item.setStatus(getItemStatusFromItemStatusDTO(itemDTO.getStatus()));
         return item;

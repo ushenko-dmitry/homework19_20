@@ -12,7 +12,7 @@ public interface GeneralRepository<T> {
 
     List<T> getAllEntities(Connection connection) throws SQLException;
     
-    T getEntityById(Connection connection, Long id) throws SQLException;
+    T getEntityByUUID(Connection connection, String uuid) throws SQLException;
 
     Integer getAmountEntities(Connection connection) throws SQLException;
 

@@ -10,9 +10,9 @@ public interface UserService extends UserDetailsService{
 
     List<UserDTO> getAllUsers();
 
-    UserDTO getUserById(Long userId);
+    UserDTO getUserByUUID(String userUuid);
     
-    UserDTO getUserByUsername(String username);
+    UserDTO getUserDTOByUsername(String username);
 
     Integer getAmountUsers();
 

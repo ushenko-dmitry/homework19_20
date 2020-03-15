@@ -37,9 +37,9 @@ public class ItemApiController {
         return new ResponseEntity(items, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity showItem(@PathVariable(name = "id") String id) {
-        ItemDTO item = itemService.getItemById(Long.parseLong(id));
+    @GetMapping("/{uuid}")
+    public ResponseEntity showItem(@PathVariable(name = "uuid") String uuid) {
+        ItemDTO item = itemService.getItemByUUID(uuid);
         if (item == null) {
             return new ResponseEntity("Item is not found", HttpStatus.NOT_FOUND);
         } else {
@@ -68,9 +68,9 @@ public class ItemApiController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteCompletedItem(@PathVariable(name = "id") String id) {
-        ItemDTO item = itemService.getItemById(Long.parseLong(id));
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity deleteCompletedItem(@PathVariable(name = "uuid") String uuid) {
+        ItemDTO item = itemService.getItemByUUID(uuid);
         if (item != null) {
             if (item.getStatus() != ItemStatusDTO.COMPLETED) {
                 return new ResponseEntity("Item is not completed", HttpStatus.BAD_REQUEST);

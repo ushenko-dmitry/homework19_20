@@ -3,6 +3,7 @@ package ru.mail.dimaushenko.service.model;
 public class ItemDTO {
 
     private Long id;
+    private String uuid;
     private String name;
     private ItemStatusDTO status;
 
@@ -12,6 +13,14 @@ public class ItemDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {

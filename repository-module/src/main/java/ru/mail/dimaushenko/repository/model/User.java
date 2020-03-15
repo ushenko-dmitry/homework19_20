@@ -3,6 +3,7 @@ package ru.mail.dimaushenko.repository.model;
 public class User {
 
     private Long id;
+    private String uuid;
     private String username;
     private String password;
     private UserRole role;
@@ -13,6 +14,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getUsername() {

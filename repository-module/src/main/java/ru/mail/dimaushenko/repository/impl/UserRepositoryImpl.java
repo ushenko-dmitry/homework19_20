@@ -12,6 +12,7 @@ import static ru.mail.dimaushenko.repository.constants.SQLColumnName.COLUMN_USER
 import static ru.mail.dimaushenko.repository.constants.SQLColumnName.COLUMN_USER_PASSWORD;
 import static ru.mail.dimaushenko.repository.constants.SQLColumnName.COLUMN_USER_ROLE;
 import static ru.mail.dimaushenko.repository.constants.SQLColumnName.COLUMN_USER_USERNAME;
+import static ru.mail.dimaushenko.repository.constants.SQLColumnName.COLUMN_USER_UUID;
 import ru.mail.dimaushenko.repository.model.User;
 import ru.mail.dimaushenko.repository.model.UserRole;
 import ru.mail.dimaushenko.repository.properties.RequestProperties;
@@ -33,6 +34,7 @@ public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements U
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getRole().name());
+            preparedStatement.setString(4, user.getUuid());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -64,9 +66,9 @@ public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements U
     }
 
     @Override
-    public User getEntityById(Connection connection, Long id) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestSelectUserById())) {
-            preparedStatement.setLong(1, id);
+    public User getEntityByUUID(Connection connection, String uuid) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestSelectUserByUUID())) {
+            preparedStatement.setString(1, uuid);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 User user = null;
                 if (resultSet.next()) {
@@ -110,7 +112,7 @@ public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements U
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getRole().name());
-            preparedStatement.setLong(4, user.getId());
+            preparedStatement.setString(4, user.getUuid());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Update `user` in DB was failed, no affected rows");
@@ -121,7 +123,7 @@ public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements U
     @Override
     public void removeEntity(Connection connection, User user) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestDeleteUser())) {
-            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setString(1, user.getUuid());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Remove `user` in DB was failed, no affected rows");
@@ -132,6 +134,7 @@ public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements U
     private User getUser(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId((long) resultSet.getInt(COLUMN_USER_ID));
+        user.setUuid(resultSet.getString(COLUMN_USER_UUID));
         user.setUsername(resultSet.getString(COLUMN_USER_USERNAME));
         user.setPassword(resultSet.getString(COLUMN_USER_PASSWORD));
         user.setRole(UserRole.valueOf(resultSet.getString(COLUMN_USER_ROLE)));

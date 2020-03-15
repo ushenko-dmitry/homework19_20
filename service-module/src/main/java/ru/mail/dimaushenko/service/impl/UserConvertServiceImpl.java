@@ -16,6 +16,7 @@ public class UserConvertServiceImpl implements UserConvertService {
     public UserDTO getDTOFromObject(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
+        userDTO.setUuid(user.getUuid());
         userDTO.setUsername(user.getUsername());
         userDTO.setPassword(user.getPassword());
         userDTO.setRole(getUserRoleDTOFromUserRole(user.getRole()));
@@ -36,6 +37,7 @@ public class UserConvertServiceImpl implements UserConvertService {
     public User getObjectFromDTO(UserDTO userDTO) {
         User user = new User();
         user.setId(userDTO.getId());
+        user.setUuid(userDTO.getUuid());
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
         user.setRole(getUserRoleFromUserRoleDTO(userDTO.getRole()));

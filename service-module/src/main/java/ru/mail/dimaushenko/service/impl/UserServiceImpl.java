@@ -5,12 +5,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.mail.dimaushenko.repository.UserRepository;
 import ru.mail.dimaushenko.repository.model.User;
@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
                     return null;
                 }
                 User user = userConvertService.getObjectFromDTO(userDTO);
+                user.setUuid(UUID.randomUUID().toString());
                 user.setPassword(BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt(12)));
                 user = userRepository.addEntity(connection, user);
                 userDTO = userConvertService.getDTOFromObject(user);
@@ -78,11 +79,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(Long userId) {
+    public UserDTO getUserByUUID(String userUuid) {
         try (Connection connection = userRepository.getConnection()) {
             connection.setAutoCommit(false);
             try {
-                User user = userRepository.getEntityById(connection, userId);
+                User user = userRepository.getEntityByUUID(connection, userUuid);
                 UserDTO userDTO = userConvertService.getDTOFromObject(user);
                 connection.commit();
                 return userDTO;
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserByUsername(String username) {
+    public UserDTO getUserDTOByUsername(String username) {
         try (Connection connection = userRepository.getConnection()) {
             connection.setAutoCommit(false);
             try {

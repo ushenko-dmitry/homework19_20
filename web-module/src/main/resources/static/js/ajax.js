@@ -1,6 +1,6 @@
 var pattern_table_raw = "\
 <tr id='<UUID>'>\
-    <td><ID></td>\
+    <td><NUMBER></td>\
     <td><NAME></td>\
     <td>\
         <select id='status'>\
@@ -9,10 +9,10 @@ var pattern_table_raw = "\
         </select>\
     </td>\
     <td>\
-        <input type='button' name='update' onclick='updateItem(<UUID>)' value='update'>\
+        <input type='button' name='update' onclick='updateItem(\"<UUID>\")' value='update'>\
     </td>\
     <td>\
-        <input type='button' name='delete' onclick='deleteItem(<UUID>)' value='delete'>\
+        <input type='button' name='delete' onclick='deleteItem(\"<UUID>\")' value='delete'>\
     </td>\
 </tr>";
 
@@ -33,13 +33,13 @@ function getItems() {
             if (Array.isArray(data)) {
                 for (var item in data) {
                     tbody_content += pattern_table_raw
-                            .split("<ID>").join(data[item].id)
+                            .split("<NUMBER>").join(Number(item) + Number(1))
                             .split("<NAME>").join(data[item].name)
-                            .split("<UUID>").join(data[item].id);
+                            .split("<UUID>").join(data[item].uuid);
                 }
                 document.getElementById('items').children[2].innerHTML = tbody_content;
                 for (var item in data) {
-                    document.getElementById(data[item].id).children[2].children[0].value = data[item].status;
+                    document.getElementById(data[item].uuid).children[2].children[0].value = data[item].status;
                 }
             }
         },
@@ -73,7 +73,7 @@ function addItem() {
 
 function updateItem(uuid) {
     var data = {
-        "id": document.getElementById(uuid).children[0].textContent,
+        "uuid": uuid,
         "name": document.getElementById(uuid).children[1].textContent,
         "status": document.getElementById(uuid).children[2].children[0].value
     };
@@ -96,7 +96,7 @@ function deleteItem(uuid) {
     $.ajax({
         type: 'DELETE',
         contentType: 'application/json',
-        url: "/api/items/"+uuid,
+        url: "/api/items/" + uuid,
         success: function (data) {
             alert("item has delete");
             getItems();

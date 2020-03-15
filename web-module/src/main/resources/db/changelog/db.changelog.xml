@@ -42,5 +42,14 @@
                         columnName="role"
                         newDataType="enum('ADMIN', 'USER')"/>
     </changeSet>
+    
+    <changeSet id="4" author="dushenko">
+        <addColumn tableName="user">
+            <column name="uuid" type="varchar(225)"/>
+        </addColumn>
+        <addColumn tableName="item">
+            <column name="uuid" type="varchar(225)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

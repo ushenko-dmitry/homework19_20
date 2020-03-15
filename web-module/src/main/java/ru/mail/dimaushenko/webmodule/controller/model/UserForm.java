@@ -6,13 +6,13 @@ import javax.validation.constraints.Size;
 public class UserForm {
 
     @NotNull
-    @Size(min = 5)
+    @Size(min = 1)
     private String username;
     @NotNull
-    @Size(min = 8)
+    @Size(min = 1)
     private String password;
     @NotNull
-    @Size(min = 8)
+    @Size(min = 1)
     private String passwordConfirm;
     private String role;
 

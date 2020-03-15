@@ -22,12 +22,39 @@
             </thead>
             <tbody>
                 <tr th:each="item, stat : ${items}">
-                    <td th:text="${item.id}">id</td>
+                    <td th:text="${stat.count + (pagination.currentPage - 1) * pagination.itemsPerPage}">id</td>
                     <td th:text="${item.name}">Name</td>
                     <td th:text="${item.status}">Status</td>
                 </tr>
             </tbody>
         </table>
+
+        <div>
+            <div>
+                <p>Pages: <span></span></p>
+            </div>
+            <ul th:object="${pagination}">
+                <th:block th:unless="*{currentPage == 1}">
+                    <li><a th:href="@{/items(currentPage=*{currentPage - 1}, itemsPerPage=*{itemsPerPage})}">Back</a></li>
+                </th:block>
+                <li><a th:href="@{/items(currentPage=*{currentPage}, itemsPerPage=*{itemsPerPage})}" th:text="*{currentPage}">page</a></li>
+                <th:block th:unless="*{currentPage == amountPages}">
+                    <li><a th:href="@{/items(currentPage=*{currentPage + 1}, itemsPerPage=*{itemsPerPage})}">Next</a></li>
+                </th:block>
+            </ul>
+            <div>
+                <form method="GET" th:action="@{/items}" th:object="${pagination}" >
+                    <span>documents per page: </span>
+                    <input type="hidden" name="currentPage" value="1" th:value="*{currentPage}" th:field="*{currentPage}"/>
+                    <select name="documentsPerPage" th:value="*{itemsPerPage}" th:field="*{itemsPerPage}">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                    </select>
+                    <input type="submit" value="Apply"/>
+                </form>
+            </div>
+        </div>
 
     </body>
 </html>
