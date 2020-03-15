@@ -66,7 +66,7 @@ public class RegistrationController {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(userForm.getUsername());
         userDTO.setPassword(userForm.getPassword());
-        
+
         String userRole = userForm.getRole().toUpperCase();
         userDTO.setRole(UserRoleDTO.valueOf(userRole));
         return userDTO;
