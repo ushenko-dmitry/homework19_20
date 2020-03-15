@@ -10,4 +10,6 @@ public interface ItemRepository extends GeneralRepository<Item> {
 
     List<Item> getEntityByItemStatus(Connection connection, ItemStatus itemStatus) throws SQLException;
 
+    boolean isItemFound(Connection connection, Item item) throws SQLException;
+
 }

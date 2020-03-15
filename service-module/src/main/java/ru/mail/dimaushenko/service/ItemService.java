@@ -14,6 +14,8 @@ public interface ItemService {
     ItemDTO getItemById(Long itemId);
 
     Integer getAmountItems();
+    
+    boolean isItemFound(ItemDTO itemDTO);
 
     boolean updateItem(ItemDTO itemDTO);
 

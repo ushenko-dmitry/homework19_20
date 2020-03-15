@@ -10,16 +10,39 @@
     </head>
     <body>
         <div>Items</div>
+        <a href="/logout" th:href="@{/logout}">Log Out</a><br/>
+        <a href="/logout" th:href="@{/}">Back</a><br/>
+        <table border="1" id="items">
+            <caption>Items</caption>
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>Name</td>
+                    <td>Status</td>
+                    <td>Update</td>
+                    <td>Delete</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>Name</td>
+                    <td>Status</td>
+                    <td>Update</td>
+                    <td>Delete</td>
+                </tr>
+            </tbody>
+        </table>
         
+        <p>Add item</p>
         <div id="add_item">
             <input type="text" name="text" id="name" value="" placeholder="Name"/>
-            <select id="status">
+            <select id="status" >
                 <option value="READY">Ready</option>
                 <option value="COMPLETED">Completed</option>
             </select>
             <input type="button" id="btn_add_item" value="Add item"/>
-        </div>
-        <input type="button" name="btn" id="test" value="butt" onclick="getItem(1)"/>
+        </div>        
     </body>
     <script th:src="@{/js/ajax.js}"></script>
 </html>

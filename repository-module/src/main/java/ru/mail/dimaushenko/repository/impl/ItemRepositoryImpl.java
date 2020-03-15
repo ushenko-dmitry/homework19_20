@@ -127,6 +127,16 @@ public class ItemRepositoryImpl extends GeneralRepositoryImpl<Item> implements I
         }
     }
 
+    @Override
+    public boolean isItemFound(Connection connection, Item item) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareCall(requestProperties.getSqlRequestSelectItem())) {
+            preparedStatement.setLong(1, item.getId());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next();
+            }
+        }
+    }
+    
     private Item getItem(ResultSet resultSet) throws SQLException {
         Item item = new Item();
         item.setId((long) resultSet.getInt(COLUMN_ITEM_ID));
@@ -134,4 +144,5 @@ public class ItemRepositoryImpl extends GeneralRepositoryImpl<Item> implements I
         item.setStatus(ItemStatus.valueOf(resultSet.getString(COLUMN_ITEM_STATUS)));
         return item;
     }
+
 }

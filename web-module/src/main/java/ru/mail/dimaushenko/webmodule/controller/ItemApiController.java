@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import ru.mail.dimaushenko.service.ItemService;
 import ru.mail.dimaushenko.service.model.ItemDTO;
 import ru.mail.dimaushenko.service.model.ItemStatusDTO;
@@ -48,38 +47,43 @@ public class ItemApiController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity addItem(@RequestBody ItemDTO item) {
-        ItemDTO addItem = itemService.addItem(item);
-        return new ResponseEntity(addItem, HttpStatus.CREATED);
+        ItemDTO newItem = itemService.addItem(item);
+        return new ResponseEntity(newItem, HttpStatus.CREATED);
     }
 
-    @PutMapping("/")
+    @PutMapping()
     public Object updateItem(@RequestBody ItemDTO item) {
-        return null;
+        boolean isItemFound = itemService.isItemFound(item);
+        if (isItemFound) {
+            boolean isUpdateItem = itemService.updateItem(item);
+            if (isUpdateItem) {
+                return new ResponseEntity(item, HttpStatus.OK);
+            } else {
+                return new ResponseEntity("Item is not updated", HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity("Item is not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteCompletedItem(@PathVariable(name = "id") String id) {
         ItemDTO item = itemService.getItemById(Long.parseLong(id));
-        if (item.getStatus() != ItemStatusDTO.COMPLETED) {
-            return new ResponseEntity("Item is not completed", HttpStatus.BAD_REQUEST);
-        }
-        boolean isRemoveItem = itemService.removeItem(item);
-        if (isRemoveItem) {
-            return new ResponseEntity("Item is not found", HttpStatus.NOT_FOUND);
+        if (item != null) {
+            if (item.getStatus() != ItemStatusDTO.COMPLETED) {
+                return new ResponseEntity("Item is not completed", HttpStatus.BAD_REQUEST);
+            }
+            boolean isRemoveItem = itemService.removeItem(item);
+            if (isRemoveItem) {
+                return new ResponseEntity(null, HttpStatus.OK);
+            } else {
+                return new ResponseEntity("Item is not deleted", HttpStatus.BAD_REQUEST);
+            }
         } else {
-            return new ResponseEntity(item, HttpStatus.OK);
+            return new ResponseEntity("Item is not found", HttpStatus.NOT_FOUND);
         }
-    }
-
-    @DeleteMapping("/")
-    public ResponseEntity deleteCompletedItems() {
-        List<ItemDTO> completedItems = itemService.getCompletedItems();
-        for (ItemDTO item : completedItems) {
-            itemService.removeItem(item);
-        }
-        return new ResponseEntity("Items has deleted", HttpStatus.OK);
     }
 
 }

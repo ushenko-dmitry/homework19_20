@@ -22,6 +22,8 @@ public class RequestProperties {
     private String sqlRequestSelectUserByUsername;
     @Value("${sql.request.select.item.by_id}")
     private String sqlRequestSelectItemById;
+    @Value("${sql.request.select.item}")
+    private String sqlRequestSelectItem;
     @Value("${sql.request.select.item.by_status}")
     private String sqlRequestSelectItemByStatus;
 
@@ -95,5 +97,9 @@ public class RequestProperties {
     public String getSqlRequestDeleteItem() {
         return sqlRequestDeleteItem;
     }
-    
+
+    public String getSqlRequestSelectItem() {
+        return sqlRequestSelectItem;
+    }
+
 }

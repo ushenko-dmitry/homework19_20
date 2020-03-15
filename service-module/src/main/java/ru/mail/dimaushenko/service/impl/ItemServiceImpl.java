@@ -126,6 +126,25 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public boolean isItemFound(ItemDTO itemDTO) {
+        try (Connection connection = itemRepository.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                Item item = itemConvertService.getObjectFromDTO(itemDTO);
+                boolean isFound = itemRepository.isItemFound(connection, item);
+                connection.commit();
+                return isFound;
+            } catch (SQLException ex) {
+                connection.rollback();
+                logger.error(ex.getMessage(), ex);
+            }
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return false;
+    }
+    
+    @Override
     public boolean updateItem(ItemDTO itemDTO) {
         try (Connection connection = itemRepository.getConnection()) {
             connection.setAutoCommit(false);
