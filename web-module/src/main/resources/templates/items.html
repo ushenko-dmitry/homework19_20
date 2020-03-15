@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        <title>Items</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div>Items</div>
+        <a href="/logout" th:href="@{/logout}">Log Out</a><br/>
+        <a href="/logout" th:href="@{/}">Back</a><br/>
+
+        <table border="1">
+            <caption>Items</caption>
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>Name</td>
+                    <td>Status</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item, stat : ${items}">
+                    <td th:text="${stat.count + (pagination.currentPage - 1) * pagination.itemsPerPage}">id</td>
+                    <td th:text="${item.name}">Name</td>
+                    <td th:text="${item.status}">Status</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <div>
+                <p>Pages: <span></span></p>
+            </div>
+            <ul th:object="${pagination}">
+                <th:block th:unless="*{currentPage == 1}">
+                    <li><a th:href="@{/items(currentPage=*{currentPage - 1}, itemsPerPage=*{itemsPerPage})}">Back</a></li>
+                </th:block>
+                <li><a th:href="@{/items(currentPage=*{currentPage}, itemsPerPage=*{itemsPerPage})}" th:text="*{currentPage}">page</a></li>
+                <th:block th:unless="*{currentPage == amountPages}">
+                    <li><a th:href="@{/items(currentPage=*{currentPage + 1}, itemsPerPage=*{itemsPerPage})}">Next</a></li>
+                </th:block>
+            </ul>
+            <div>
+                <form method="GET" th:action="@{/items}" th:object="${pagination}" >
+                    <span>documents per page: </span>
+                    <input type="hidden" name="currentPage" value="1" th:value="*{currentPage}" th:field="*{currentPage}"/>
+                    <select name="documentsPerPage" th:value="*{itemsPerPage}" th:field="*{itemsPerPage}">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                    </select>
+                    <input type="submit" value="Apply"/>
+                </form>
+            </div>
+        </div>
+
+    </body>
+</html>
