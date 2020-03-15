@@ -7,7 +7,7 @@ public interface SQLColumnName {
     String COLUMN_USER_USERNAME = "username";
     String COLUMN_USER_PASSWORD = "password";
     String COLUMN_USER_ROLE = "role";
-    
+
     String COLUMN_ITEM_ID = "id";
     String COLUMN_ITEM_UUID = "uuid";
     String COLUMN_ITEM_NAME = "name";

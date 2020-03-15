@@ -15,5 +15,5 @@ public abstract class GeneralRepositoryImpl<T> implements GeneralRepository<T> {
     public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
-    
+
 }

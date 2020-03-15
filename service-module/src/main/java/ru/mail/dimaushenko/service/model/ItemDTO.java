@@ -1,9 +1,12 @@
 package ru.mail.dimaushenko.service.model;
 
+import javax.validation.constraints.Size;
+
 public class ItemDTO {
 
     private Long id;
     private String uuid;
+    @Size(max = 40)
     private String name;
     private ItemStatusDTO status;
 

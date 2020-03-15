@@ -2,10 +2,12 @@ package ru.mail.dimaushenko.webmodule.controller;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +50,13 @@ public class ItemApiController {
     }
 
     @PostMapping()
-    public ResponseEntity addItem(@RequestBody ItemDTO item) {
+    public ResponseEntity addItem(
+            @Valid @RequestBody ItemDTO item,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity("Name is too long", HttpStatus.BAD_REQUEST);
+        }
         ItemDTO newItem = itemService.addItem(item);
         return new ResponseEntity(newItem, HttpStatus.CREATED);
     }
